@@ -5,7 +5,7 @@ String getDataType(){
   return "JSON";
 }
 String getDate(){
-  return "20240505";
+  return "20240504";
 }
 String getTime(){
   return "0500";
