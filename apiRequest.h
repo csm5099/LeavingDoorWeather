@@ -9,10 +9,9 @@ void setup_apiRequest(){
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP("wifi", "50995099");
   Serial.println(WiFiMulti.run());
-  
 }
 
-void apiRequest(String apiUrl){
+String apiRequest(String apiUrl){
   if ((WiFiMulti.run() == WL_CONNECTED)) { //Check the current connection status
     Serial.println("Starting connection to server...");
 
@@ -36,7 +35,8 @@ void apiRequest(String apiUrl){
         // file found at server
         if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
           String payload = http.getString();
-          Serial.println(payload);
+          // Serial.println(payload);
+          return payload;
         }
       } else {
         Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
@@ -51,4 +51,5 @@ void apiRequest(String apiUrl){
   } else {
     Serial.println("[HTTP] Unable to connect");
   }
+  return "";
 }
