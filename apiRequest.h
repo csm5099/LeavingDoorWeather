@@ -5,25 +5,25 @@
 
 ESP8266WiFiMulti WiFiMulti;
 
-void setup_apiRequest(){
+void setup_apiRequest() {
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP("wifi", "50995099");
   Serial.println(WiFiMulti.run());
 }
 
-String apiRequest(String apiUrl){
-  if ((WiFiMulti.run() == WL_CONNECTED)) { //Check the current connection status
+String apiRequest(String apiUrl) {
+  if ((WiFiMulti.run() == WL_CONNECTED)) {  //Check the current connection status
     Serial.println("Starting connection to server...");
 
     WiFiClient client;
     HTTPClient http;
 
     Serial.print("[HTTP] begin...\n");
-    
+
     if (http.begin(client, apiUrl)) {  // HTTP
 
       Serial.print("[HTTP] GET...\n");
-    
+
       // start connection and send HTTP header
       int httpCode = http.GET();
 
@@ -47,7 +47,7 @@ String apiRequest(String apiUrl){
       Serial.println("[HTTP] Unable to connect");
     }
 
-    http.end(); //Free the resources
+    http.end();  //Free the resources
   } else {
     Serial.println("[HTTP] Unable to connect");
   }
