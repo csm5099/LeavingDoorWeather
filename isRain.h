@@ -7,8 +7,10 @@ boolean isRain(String rainJson){
   deserializeJson(doc, rainJson);
 
   //현 시간부터 12시간 까지 날씨 중 비와 눈 소식을 찾는다.
-  for(int i = 0; i++; i <= 12){
+  for(int i = 0;i <= 12; i++){
     String weather = doc["hourly"][i]["weather"][0]["main"];
+    // Serial.print(weather);
+    // Serial.print(",");
     //비,눈 소식이 있으면 1, 아니면 0
     if(weather == "Rain" || weather == "Snow") return true;
   }
