@@ -1,14 +1,10 @@
+//openweathermap
+
 String getRainAuthKey(){
-  return "5TcF7qd9Ty23Be6nfS8tPA";
+  return "c83a5af0e2aac2e215efa3230ba1dfa7";
 }
-String getDataType(){
-  return "JSON";
-}
-String getDate(){
-  return "20240504";
-}
-String getTime(){
-  return "0500";
+String getExcludeData(){
+  return "current,daily";
 }
 String getNX(){
   return "37";
@@ -19,21 +15,18 @@ String getNY(){
 
 String getRainAPIUrl(){
   String rainAuthKey = getRainAuthKey();
-  String dataType = getDataType();
-  String baseDate = getDate();
-  String baseTime = getTime();
+  String excludeData = getExcludeData();
   String nx = getNX();
   String ny = getNY();
 
-  String apiUrl = "http://apihub.kma.go.kr/api/typ02/openApi/VilageFcstInfoService_2.0/getVilageFcst";
-  apiUrl += "?authKey=" + rainAuthKey;
-  apiUrl += "&numOfRows=10";
-  apiUrl += "&pageNo=1";
-  apiUrl += "&dataType=" + dataType;
-  apiUrl += "&base_date=" + baseDate;
-  apiUrl += "&base_time=" + baseTime;
-  apiUrl += "&nx=" + nx;
-  apiUrl += "&ny=" + ny;
+  // https://api.openweathermap.org/data/3.0/onecall?lat=37&lon=127&exclude=current,daily&appid=c83a5af0e2aac2e215efa3230ba1dfa7
+  // https://api.openweathermap.org/data/3.0/onecall?lat=37&lon=127&exclude=current,daily&appid=c83a5af0e2aac2e215efa3230ba1dfa7
+
+  String apiUrl = "https://api.openweathermap.org/data/3.0/onecall";
+  apiUrl += "?lat=" + nx;
+  apiUrl += "&lon=" + ny;
+  apiUrl += "&exclude=" + excludeData;
+  apiUrl += "&appid=" + rainAuthKey;
 
   return apiUrl;
 }
