@@ -1,55 +1,28 @@
-#include <ESP8266WiFi.h>
-#include <ESP8266WiFiMulti.h>
-#include <ESP8266HTTPClient.h>
-#include <WiFiClient.h>
+#include <WiFiS3.h>
 
-ESP8266WiFiMulti WiFiMulti;
+const char server[] = "api.openweathermap.org";
+WiFiClient client;
 
-void setup_apiRequest() {
-  WiFi.mode(WIFI_STA);
-  WiFiMulti.addAP("wifi", "50995099");
-  Serial.println(WiFiMulti.run());
-}
+String apiRequest(String query) {
 
-String apiRequest(String apiUrl) {
-  if ((WiFiMulti.run() == WL_CONNECTED)) {  //Check the current connection status
-    Serial.println("Starting connection to server...");
+  //http 통신
+  if (client.connect(server, 80)) {
+    client.print(String("GET ") + query + " HTTP/1.1\r\n" + "Host: " + server + "\r\n" + "Connection: close\r\n\r\n");
+  }
 
-    WiFiClient client;
-    HTTPClient http;
-
-    Serial.print("[HTTP] begin...\n");
-
-    if (http.begin(client, apiUrl)) {  // HTTP
-
-      Serial.print("[HTTP] GET...\n");
-
-      // start connection and send HTTP header
-      int httpCode = http.GET();
-
-      // httpCode will be negative on error
-      if (httpCode > 0) {
-        // HTTP header has been send and Server response header has been handled
-        Serial.printf("[HTTP] GET... code: %d\n", httpCode);
-
-        // file found at server
-        if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
-          String payload = http.getString();
-          // Serial.println(payload);
-          return payload;
+  bool headersReceived = false;
+  while (client.connected()) {
+    while (client.available()) {
+      String line = client.readStringUntil('\n');
+      if (!headersReceived) {
+        // 헤더 처리
+        if (line == "\r") {
+          headersReceived = true;
         }
       } else {
-        Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+        // 본문 처리
+        return line;
       }
-
-      http.end();
-    } else {
-      Serial.println("[HTTP] Unable to connect");
     }
-
-    http.end();  //Free the resources
-  } else {
-    Serial.println("[HTTP] Unable to connect");
   }
-  return "";
 }
