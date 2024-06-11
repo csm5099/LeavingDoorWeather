@@ -1,7 +1,10 @@
 #include <LedControl.h>
+
 LedControl lc1 = LedControl(5, 7, 6, 1);
 LedControl lc2 = LedControl(8, 10, 9, 2);
 LedControl lc3 = LedControl(11, 13, 12, 3);
+
+int delayTime = 3000;
 
 // R 알파벳 패턴
 byte R[8] = { B00000000, B00000000, B01111111, B00001001, B00011001, B00101001, B01000110, B00000000 };
@@ -14,8 +17,7 @@ byte u[8] = { B00000000, B00111100, B01000000, B01000000, B01000000, B00111100, 
 byte D[8] = { B00000000, B00000000, B00000000, B01111110, B01000010, B01000010, B01000010, B00111100 };
 byte st[8] = { B00001000, B01010100, B01010100, B01010100, B00100000, B00001000, B01111100, B01001000 };
 
-
-void setup() {
+void ledInit() {
   lc1.shutdown(0, false);
   lc1.setIntensity(0, 8);
   lc1.clearDisplay(0);
@@ -28,35 +30,35 @@ void setup() {
   lc3.setIntensity(0, 8);
   lc3.clearDisplay(0);
 }
+void ledClearDisplay() {
+  lc1.clearDisplay(0);
+  lc2.clearDisplay(0);
+  lc3.clearDisplay(0);
+}
 
-void loop() {
+void ledRain() {
+  ledInit();
   for (int i = 0; i < 8; i++) {
     lc1.setRow(0, i, R[i]);
     lc2.setRow(0, i, ai[i]);
     lc3.setRow(0, i, n[i]);
   }
-  delay(1000);
-  lc1.clearDisplay(0);
-  lc2.clearDisplay(0);
-  lc3.clearDisplay(0);
+}
 
+void ledSun() {
+  ledInit();
   for (int i = 0; i < 8; i++) {
     lc1.setRow(0, i, S[i]);
     lc2.setRow(0, i, u[i]);
     lc3.setRow(0, i, n[i]);
   }
-  delay(1000);
-  lc1.clearDisplay(0);
-  lc2.clearDisplay(0);
-  lc3.clearDisplay(0);
+}
 
+void ledDust() {
+  ledInit();
   for (int i = 0; i < 8; i++) {
     lc1.setRow(0, i, D[i]);
     lc2.setRow(0, i, u[i]);
     lc3.setRow(0, i, st[i]);
   }
-  delay(1000);
-  lc1.clearDisplay(0);
-  lc2.clearDisplay(0);
-  lc3.clearDisplay(0);
 }

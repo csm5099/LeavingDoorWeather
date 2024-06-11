@@ -3,7 +3,7 @@
 #define NOTE_G4 392
 
 int tempo = 180;
-int buzzer = 11;
+int buzzer = 4;
 // rain .-. .- .. -.
 int rain[] = { NOTE_C4, 4, NOTE_E4, 4, NOTE_G4, 4, NOTE_C4, 16, NOTE_C4, 8, NOTE_C4, 16, NOTE_C4, 16, NOTE_C4, 8, NOTE_C4, 16, NOTE_C4, 16, NOTE_C4, 8, NOTE_C4, 16 };
 // sun ... ..- -.
