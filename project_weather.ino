@@ -10,8 +10,7 @@ boolean takeUmbrella = false;
 boolean takeSunblock = false;
 boolean takeMask = false;
 
-int weatherInfoLimit = 0;  //3000번 동안 쿨타임
-
+int weatherInfoLimit = 0;  //30분 쿨타임
 void setup() {
   Serial.begin(9600);
   // pir인풋센서 인풋
@@ -30,7 +29,7 @@ void loop() {
     takeUmbrella = isRain(apiRequest(getWeatherQuery()));
     takeSunblock = isBurn(apiRequest(getWeatherQuery()));
     takeMask = isDusty(apiRequest(getAirAPIQuery()));
-    weatherInfoLimit = 3000;
+    weatherInfoLimit = 9000;
   }
   weatherInfoLimit -= 1;
   Serial.println(weatherInfoLimit);
